@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:th="http://www.w3.org/1999/xhtml"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head th:replace="layout/layout :: head">
+    <meta charset="utf-8">
+</head>
+<body>
+
+<header th:replace="layout/layout :: header"></header>
+
+
+<div class="py-4 ml-5 mr-5">
+    <div class="card bg-light">
+        <div class="card-header" th:text="${titulo} "></div>
+        <div class="card-body">
+            <h4 class="card-title">
+                <a th:href="@{/formCurso}" class="btn btn-primary">Agregar curso</a>
+
+                <a th:href="@{/exportarPDFCurso}"
+                   class="btn btn-secondary">Exportar a PDF</a> <a th:href="@{/exportarExcelCurso}"
+                                                                   class="btn btn-success">Exportar a Excel</a>
+                <a class="btn btn-dark"
+                   th:href="@{/listarParticipantes/}" style="">Participantes</a>
+            </h4>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre del curso</th>
+                    <th>Duracion</th>
+                    <th>Fecha del curso</th>
+                    <th>Participantes</th>
+                    <th>Modalidad</th>
+                    <th>Costo</th>
+                    <th>I.V.A</th>
+                    <th>Rebaja</th>
+                    <th>Descuento</th>
+                    <th>Total</th>
+                    <th>Detalles</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="curso : ${cursos}">
+                    <td th:text="${curso.id}"></td>
+                    <td th:text="${curso.nombreCurso}"></td>
+                    <td th:text="${curso.duracion}"></td>
+                    <td th:text="${curso.fecha}"></td>
+                    <td th:text="${curso.participantes}"></td>
+                    <td th:text="${curso.modalidad}"></td>
+                    <td th:text="${curso.costo}"></td>
+                    <td th:text="${curso.iva} + ${porcentaje}"></td>
+                    <td th:text="${curso.rebaja} + ${porcentaje}"></td>
+                    <td th:text="${curso.descuento}"></td>
+                    <td th:text="${curso.total}"></td>
+                    <td><a class="btn btn-info btn-sm"
+                           th:href="@{/verCurso/} + ${curso.id}">Detalles</a></td>
+                    <td><a
+                            class="btn btn-warning btn-sm"
+                            th:href="@{/formCurso/} + ${curso.id}">Editar</a></td>
+                    <td><a
+                            class="btn btn-danger btn-sm"
+                            th:href="@{/eliminarCurso/} + ${curso.id}"
+                            onclick="return confirm('¿Estás seguro de eliminar el curso?');">Eliminar</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <nav th:replace="paginator-nav :: paginator"></nav>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

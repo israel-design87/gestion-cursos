@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+
+
+<header th:replace="layout/layout :: header"></header>
+
+<div class="py-4 ml-5 mr-5">
+    <div class="card bg-light">
+        <div class="card-header" th:text="${titulo}"></div>
+        <div class="card-body">
+            <h4 class="card-title, form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                    <a th:href="@{/formParticipantes}" class="btn btn-primary">Agregar particpantes</a>
+                </div>
+                <form class="form-inline" th:action="@{/exportarPDFParticipantes}">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input type="text" name="palabraClave1" class="form-control" id="palabraClave1"
+                               th:value="${palabraClave1}" style="width : 80px" required>
+
+                    </div>
+                    <input type="submit" class="btn btn-danger mb-2" value="Exportar a PDF">
+
+                </form>
+                <form class="form-inline" th:action="@{/exportarExcelParticipantes}">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input type="text" name="palabraClave2" class="form-control" id="palabraClave2"
+                               th:value="${palabraClave2}" style="width : 80px" required>
+
+                    </div>
+                    <input type="submit" class="btn btn-success mb-2" value="Exportar a Excel">
+
+                </form>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                <form class="form-inline" th:action="@{/listarParticipantes}">
+                    <div class="form-group mb2">
+                        <label>Filtrar:</label>
+
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input type="text" name="palabraClave" class="form-control" id="palabraClave"
+                               th:value="${palabraClave}" placeholder="Digite el valor a buscar" required>
+                    </div>
+                    <input type="submit" class="btn btn-primary mb-2" value="Buscar">
+                    &nbsp;&nbsp;
+                    <input type="submit" class="btn btn-secondary mb-2" value="Limpiar" onclick="limpiarCampos()">
+                </form>
+            </h4>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre del Participante</th>
+                <th>Email</th>
+                <th>Sexo</th>
+                <th>Telefono</th>
+                <th>Empresa</th>
+                <th>Fecha del curso</th>
+                <th>Detalles</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="participante : ${participante}">
+                <td th:text="${participante.id}"></td>
+                <td th:text="${participante.nombreParticipante}"></td>
+                <td th:text="${participante.email}"></td>
+                <td th:text="${participante.sexo}"></td>
+                <td th:text="${participante.telefono}"></td>
+                <td th:text="${participante.empresa}"></td>
+                <td th:text="${participante.fechaCurso}"></td>
+                <td><a class="btn btn-info btn-sm"
+                       th:href="@{/verParticipantes/} + ${participante.id}">Detalles</a></td>
+                <td><a
+                        class="btn btn-warning btn-sm"
+                        th:href="@{/formParticipantes/} + ${participante.id}">Editar</a></td>
+                <td><a
+                        class="btn btn-danger btn-sm"
+                        th:href="@{/eliminarParticipantes/} + ${participante.id}"
+                        onclick="return confirm('¿Estás seguro de eliminar al participante?');">Eliminar</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<footer th:replace="layout/layout :: footer"></footer>
+<script type="text/javascript">
+    function limpiarCampos(){
+    window.location='/listarParticipantes';
+    }
+
+</script>
+</body>
+</html>
